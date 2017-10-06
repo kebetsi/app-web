@@ -1,0 +1,1085 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,400italic|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
+
+  <title>Pryv</title>
+  <base href="https://pryv.github.io/app-web/">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Slice of life" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="fb:app_id" content="589869207755296" />
+  <link rel="stylesheet" type="text/css" href="styles/vendor.min.css">
+  <link rel="stylesheet" type="text/css" href="styles/styles.css">
+  <link rel="stylesheet" href="fonts/ss-gizmo.css">
+
+  <script type="text/javascript" charset="utf-8" src="script/vendor.js"></script>
+  <script type="text/javascript" charset="utf-8" src="//cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.4/highcharts.js"></script>
+  <script src="script/airbrake-shim.js" data-airbrake-project-id="95886" data-airbrake-project-key="b0de2702276b1e9094a2bfd0d3285a11" data-airbrake-environment-name="production"></script>
+  <script type="text/javascript" charset="utf-8" src="script/app_bundle_main.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      var baseHref = $('base').attr('href');
+      var i18nOptions = {
+        ns: {
+          namespaces: ['browser'],
+          defaultNs: 'browser'
+        },
+        customLoad: function(lng, ns, options, loadComplete) {
+          $.get(baseHref + 'locales/' + lng + '/' + ns + '.json')
+           .done(function (data) {
+             loadComplete(null, data);
+           })
+           .fail(function (e) {
+             loadComplete(e);
+           });
+        }
+      };
+      i18n.init(i18nOptions, function (t) {
+        $('body').i18n();
+        $('#login-button').html(' ' + t('nav.actions.signIn'));
+      });
+      var wrapped = Airbrake.wrap(function() {
+        pryvApp.main(false);
+      });
+      wrapped();
+
+    });
+  </script>
+<!-- ONBOARDING V2 -->
+  <script id="onboardingView" type="template">
+    <header>
+      <a id="onboarding-skip" href="javascript:void(0)">Skip intro <span class="ss-fastforward"></span></a>
+    </header>
+
+    <div id="onboarding-carousel" class="carousel slide" data-ride="carousel">
+
+      <div class="carousel-inner">
+
+        <div class="item active slide1">
+          <div class="container">
+            <a class="btn btn-primary btn-lg" href="#onboarding-carousel" data-slide="next">Get started <span class="ss-navigateright"></span></a>
+            <img src="images/onboarding_image.png"/>
+          </div>
+        </div>
+
+        <div class="item slide2">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4"><img src="images/pryvapp.png"/></div>
+              <div class="col-md-8">
+                <h1>iPhone app</h1>
+                <p>You can also download Pryv for iOS to collect data and browse your Pryv from your iPhone.</p>
+                <a class="btn btn-primary btn-lg" href="#onboarding-carousel" data-slide="next">Next <span class="ss-navigateright"></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="item slide3">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4"><img src="images/pryvapp.png"/></div>
+              <div class="col-md-8">
+                <h1>Let’s get started</h1>
+                <p>Add pics, notes, your position from here...</p>
+                <a id="onboarding-add" class="btn btn-primary btn-lg" href="javascript:void(0)"><span class="ss-plus"></span> Add content</a>
+                <p>...or connect apps and devices</p>
+                <a id="onboarding-connect" class="btn btn-primary btn-lg" href="javascript:void(0)"><span class="ss-piechart"></span> Connect apps</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <footer>
+      <a href="https://christine.pryv.me/#/sharings/chvgqb98b0aop6npn2qdpjgjy" target="_blank"><img src="images/christine-avatar.jpg"><p><strong>Want to have a look?</strong><span>Take a quick tour of Pryv through the eyes of Christine, a young mother passionate about visual arts and self-tracking</span></p></a>
+    </footer>
+
+    <!--<div class="container">
+      <div class="row onboarding">
+        <div class="col-md-4"><h1 class="hidden-xs" data-i18n="onboarding.labels.title"></h1>
+          <div class="ob_text hidden-xs" >
+            <div data-i18n="[html]onboarding.messages.gettingStarted"></div>
+            <form class="form-inline" role="form" id="onboarding-form">
+              <div class="form-group">
+                <input type="text" id='onboarding-input-name' class="form-control" data-i18n="[placeholder]onboarding.labels.streamInput" style="width: 152px;" required>
+              </div>
+              <button type="submit" class="btn btn-primary"><span data-i18n="button.start"></span>  <i class="fa fa-spinner fa-spin" style="display: none;"></i></button>
+            </form>
+          </div>
+
+
+        </div>
+        <div class="col-md-8 hidden-xs"><img src="images/onboarding_image.png"/></div>
+      </div>
+    </div>-->
+  </script>
+<!-- END ONBOARDING V2 -->
+
+  <script id="super-condensed-view" type="template">
+    <div class="aggregated-icon Numericals"></div>
+    <% if(eventsNbr > 1) { %>
+    <span class="aggregated-nbr-events"><%=eventsNbr%></span>
+    <% } %>
+
+    <div class="aggregated-icon-page"></div>
+    <div class="content Center-Container is-Table">
+      <div class="Table-Cell">
+        <div class="Center-Block">
+          <% _.each(_.keys(datas), function (key) {
+          %><p><%= _.size(datas[key])%> <%= key %></p> <%
+          })
+          %>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script id="positionsView" type="template">
+    <div class="aggregated-icon Positions"></div>
+    <% if(eventsNbr > 1) { %>
+    <span class="aggregated-nbr-events"><%=eventsNbr%></span>
+    <% } %>
+
+    <div id="map-canvas-<%=id%>" class="mapView"></div>
+  </script>
+  <script id="picturesView" type="template">
+    <% if(eventsNbr > 1) { %>
+    <span class="aggregated-nbr-events"><%=eventsNbr%></span>
+    <% } %>
+  </script>
+
+  <script id="notesView" type="template">
+    <div class="aggregated-icon Notes"></div>
+    <% if(eventsNbr > 1) { %>
+    <span class="aggregated-nbr-events"><%=eventsNbr%></span>
+    <% } %>
+    <div class="content Center-Container is-Table">
+      <div class="Table-Cell">
+        <div class="Center-Block">
+          <%= content %>
+        </div>
+      </div>
+    </div>
+    <div class="tags"><%= tags %></div>
+    <div class="date"><%= PryvBrowser.dateTime.getTimeText(time) %></div>
+  </script>
+
+  <script id="activityView" type="template">
+      <div class="aggregated-icon Numericals"></div>
+      <% if(eventsNbr > 1) { %>
+      <span class="aggregated-nbr-events"><%=eventsNbr%></span>
+      <% } %>
+      <div class="chartContainer"></div>
+      <div class="chart-total-label"></div>
+  </script>
+
+  <script id="genericsView" type="template">
+    <div class="aggregated-icon <%= type.split("/")[0] %> <%= type.split("/")[1] %>"></div>
+    <% if(eventsNbr > 1) { %>
+    <span class="aggregated-nbr-events"><%=eventsNbr%></span>
+    <% } %>
+    <div class="aggregated-icon-page"></div>
+    <div class="content Center-Container is-Table">
+      <div class="Table-Cell">
+        <div class="Center-Block">
+          <%= getContent() %>
+        </div>
+      </div>
+    </div>
+
+  </script>
+  <script id="nodeView" type="template">
+
+    <%
+    if (typeof(content) != "undefined") {
+
+    var canManageStream = function (content) {
+    var conn = content.connection;
+    if (!conn) {
+    return false;
+    }
+    if (!conn._accessInfo) {
+    return false;
+    }
+
+    if (conn._accessInfo.type === 'personal') {
+    return true;
+    }
+    if (conn._accessInfo.permissions &&
+    conn._accessInfo.permissions[0].level === 'manage') {
+    return true;
+    }
+    return false;
+    };
+
+    var bgColor = PryvBrowser.streamUtils.getColor(content);
+    var manageStream = canManageStream(content);
+    if (typeof(content.name) != "undefined" && typeof(content.clientData) != "undefined" ) { %>
+    <div class='nodeHeader <%= content.clientData.color %>'><span class="pins-color 1" style="background-color: <%= bgColor %>"></span><%= content.name %>
+      <% if (manageStream)  { %>
+      <i class="streamConfig fa fa-cog fa-fw" title="Edit stream"></i>
+      <% } %>
+    </div>
+    <% } else if (typeof(content.name) != "undefined" ) { %>
+    <div class='nodeHeader '><span class="pins-color 2" style="background-color: <%= bgColor %>"></span><%= content.name %>
+      <% if (manageStream)  { %>
+      <i class="streamConfig fa fa-cog fa-fw" title="Edit stream"></i>
+      <% } %>
+    </div>
+    <% } else if (typeof(content.username) != "undefined" && content._accessInfo.name !== "pryv-browser") { %>
+    <div class='nodeHeader'><span class="pins-color 3" style="background-color: <%= bgColor %>"></span><%= content.username %> / <%= content._accessInfo.name %></div>
+    <% } else if (typeof(content.username) != "undefined") { %>
+    <div class='nodeHeader'><span class="pins-color 4" style="background-color: <%= bgColor %>"></span><%= content.username %></div>
+    <% } } %>
+    <span></span>
+  </script>
+
+  <script type="text/html" id="template-detailListCompositeView">
+    <div id="detail-list"></div>
+  </script>
+  <script type="text/html" id="template-subscribeListCompositeView">
+    <ul id="subscribe-list"></ul>
+  </script>
+  <script type="text/html" id="template-detailItemView">
+    <div class="row detail-item-date">
+        <span class="date"><%= PryvBrowser.dateTime.getTimeText(event.time) %></span>
+    </div>
+    <div class="row detail-item-content">
+      <%= getPreview() %>
+    </div>
+    <div class="row detail-item-checkbox">
+      <div class="pryv-checkbox">
+        <input type="checkbox" id="c<%= getUniqueId() %>" class="checkbox">
+        <label for="c<%= getUniqueId() - 1 %>">&nbsp;</label>
+      </div>
+
+    </div>
+  </script>
+  <script type="text/html" id="template-sharingListCompositeView">
+    <ul id="sharing-list"></ul>
+  </script>
+  <script type="text/html" id="template-sharingItemView">
+
+    <td class="sharing-name col-md-4"><a href="javascript:void(0)"><i class="fa fa-pencil sharing-edit-name"></i> </a><span class="sharing-edit-name"> <%= sharing.name %></span><div class="input-group"><input type="text" class="form-control" placeholder="<%= sharing.name %>"><span class="input-group-btn" style="width: auto;">
+        <button class="btn btn-default" type="button">Save <i class="fa fa-spinner fa-spin"></i></button>
+      </span></div></td><td class="sharing-url"><a href="<%= sharing.url %>"><%= sharing.url %></a></td>
+     <td class="share share-small">
+
+      <a target="_blank" href="https://www.facebook.com/sharer.php?u=<%= sharing.url.replace(/#/g, '%23') %>&t="
+       onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="<%= i18n.t('slices.actions.shareOnFacebook') %>">
+      <i class="fa fa-facebook"></i></a>
+       <a target="_blank" href="https://twitter.com/share?url=<%= sharing.url.replace(/#/g, '%23') %>&via=pryv"
+       onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="<%= i18n.t('slices.actions.shareOnTwitter') %>">
+      <i class="fa fa-twitter"></i></a>
+       <a href="mailto:?subject=<%= encodeURIComponent(i18n.t('slices.messages.sharingEmailSubject', {sliceName: sharing.name})) %>&amp;body=<%= encodeURIComponent(i18n.t('slices.messages.sharingEmailBody', {sliceURL: sharing.url})) %>" title="<%= i18n.t('slices.actions.shareViaEmail') %>"><i class="fa fa-envelope"></i></a>
+     </td>
+    <td class="sharing-trash"><a href="javascript:void(0)"><i class="fa fa-trash-o"></i></a></td>
+
+  </script> <script type="text/html" id="template-subscriptionItemView">
+    <form class="form-inline subscribe" role="form">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Follow
+        </label>
+      </div>
+      <div class="form-group">
+        <label>Name this slice: </label>
+        <input type="text" required class="subscription-name form-control" placeholder="<%= connection._accessInfo.name %>">
+      </div>
+      <% if (error) {%>
+        <i class="fa fa-exclamation-circle"></i>
+      <% } %>
+      <% if (created) {%>
+      <i class="fa fa-check-circle"></i>
+      <% } %>
+    </form>
+  </script>
+  <script type="text/html" id="template-bookmarkListCompositeView">
+    <ul id="bookmark-list"></ul>
+  </script>
+  <script type="text/html" id="template-bookmarkItemView">
+   <td class="col-md-4"><%= bookmark.settings.name %></td><td><a href="<%= bookmark.settings.url %>"><%= bookmark.settings.url %></a></a></td><td class="bookmark-trash"><a href="javascript:void(0)"><i class="fa fa-trash-o"></i></a></td>
+  </script>
+
+  <script type="text/html" id="template-draganddrop">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h4 class="modal-title" id="myModalLabel">Merged view</h4>
+      <div class="modal-close"></div>
+    </div>
+    <div class="modal-dnd-middle">
+      <div class="modal-dnd-left">
+        <div class="modal-dnd-chart"></div>
+      </div>
+      <div class="modal-dnd-right">
+        <div class="modal-dnd-values">
+          <h4>Available data</h4>
+        </div>
+        <div class="modal-dnd-list"></div>
+      </div>
+    </div>
+    <div class="modal-dnd-footer">
+      <div class="input-group">
+        <input type="text" class="form-control " id="dnd-field-name" placeholder="Enter a name for this view">
+        <span class="input-group-btn">
+          <button class="btn" id="dnd-btn-cancel" type="button">Cancel</button>
+          <button class="btn btn-success" id="dnd-btn-create" type="button">Create</button>
+        </span>
+      </div>
+  </script>
+  <script type="text/template" id="template-draganddrop-itemview">
+    <span class="legend-candidate-item">
+      <a class="btn btn-default btn-sm legend-action" href="javascript:;" title="Add to view">
+        <i class="fa fa-plus"></i>
+      </a>
+      <span class="legend-item-text "><%= displayName() %></span>
+    </span>
+  </script>
+  <script type="text/template" id="template-chart-container">
+    <div id="chart-container"></div>
+  </script>
+  <script type="template" id="template-detail-content-position">
+  </script>
+  <script type="template" id="template-detail-content-generic">
+    <!-- TODO: cleanup this markup (there should be just one wrapping div handling padding etc.); also applies to other places using "event-structure" -->
+    <% if (event) { %>
+      <% if (event.content) { %>
+        <div class="event-structure" id="full-content">
+          <h5 data-i18n="events.generic.labels.contentTitle">Content</h5>
+          <%= renderContent() %>
+        </div>
+      <% } %>
+      <% if (event.attachments) { %>
+        <div class="event-structure" id="full-attachment">
+          <h5 data-i18n="events.generic.labels.attachmentsTitle">File(s)</h5>
+          <%= renderAttachments() %>
+        </div>
+      <% } %>
+      <div class="event-structure" id="full-type">
+        <h5 data-i18n="events.generic.labels.typeTitle">Type</h5>
+        <p><span class="generic-type"><%= event.type %></span></p>
+      </div>
+      <div class="event-structure" id="add-attachment"></div>
+    <% } %>
+  </script>
+  <script type="template" id="template-detail-creation-type">
+    <div class="container" style="width: auto;">
+    <div class="row" id="type-select">
+      <div class="type-select col-md-2" data-type="note/txt"><i class="fa fa-pencil fa-3"></i><span data-i18n="events.note.actions.addNew"></span></div>
+      <div class="type-select col-md-2" data-type="picture/attached"><i class="fa fa-camera  fa-3"></i><span data-i18n="events.picture.actions.addNew"></span></div>
+      <div class="type-select col-md-2" data-type="position/wgs84"><i class="fa fa-map-marker  fa-3"></i><span data-i18n="events.position.actions.addNew"></span></div>
+    </div>
+    </div>
+  </script>
+  <script type="template" id="template-detail-creation-stream">
+    <h1 data-i18n="events.common.labels.streamSelection"></h1>
+    <%= getStream() %>
+  </script>
+  <script type="template" id="template-detail-picture-select">
+    <div class="container">
+      <h1 data-i18n="events.picture.labels.uploadTitle"></h1>
+      <div id="select-picture-container">
+        <input type="file" id="fileElem" name="file" accept="image/*" multiple>
+        <button id="fileSelect" class="btn btn-default" data-i18n="events.picture.actions.selectFiles"></button>
+      </div>
+    </div>
+  </script>
+  <script type="template" id="template-detail-content-tweet">
+    <div class="content Center-Container is-Table">
+      <div class="Table-Cell">
+        <div class="Center-Block">
+          <% if (event) { %>
+          <blockquote class="twitter-tweet" align="center">
+            <p><%= event.content.text %> </p>&mdash;
+            <%= event.content['screen-name'] %> (@<%= event.content['screen-name'] %>) <%= getUrl()%>
+          </blockquote>
+          <% } %>
+          <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script type="template" id="template-detail-batch-action-view">
+    <div id="batch-action">
+      <p>
+        <span id="batch-action-items-selected">* items selected</span>
+        <span class="btn-group">
+          <button id="select-all" type="button" class="btn btn-default btn-xs" data-i18n="events.common.actions.selectAll">Select all</button>
+          <button id="unselect-all" type="button" class="btn btn-default btn-xs" data-i18n="events.common.actions.selectNone">Select none</button>
+        </span>
+      </p>
+      <p>
+        <button id="cancel" type="button" class="btn btn-default" data-i18n="common.actions.cancel">Cancel</button>
+        <button id="trash" type="button" class="btn btn-danger"><i class="fa fa-spin fa-spinner" style="display: none;"></i><span data-i18n="events.common.actions.deleteSelected">Delete selected</span></button>
+      </p>
+    </div>
+  </script>
+  <script type="template" id="template-detail-creation-event">
+    <div id="creation-content">
+    <div class="creation-typed creation-typed-<%= getEventType() %> full-height col-md-9">
+      <%= getTypedView() %>
+    </div>
+    <div id="creation-select-stream" class="full-height col-md-3"><h3 data-i18n="events.common.labels.streamSelection"></h3><%= getStream() %></div>
+    </div>
+    <div id="creation-footer" class="col-md-12"><button id="publish" class="btn btn-primary" ><span data-i18n="common.actions.add"></span> <i class="fa fa-spinner fa-spin"></i></button><button id="cancel" class="btn btn-default" data-i18n="common.actions.cancel"></button></div>
+  </script>
+  <script type="template" id="template-detail-content-note">
+    <% if (event) { %>
+      <div class="event-structure editable" id="current-content"  style="height:100%">
+        <label class="non-editable"><%= getContent() %></label>
+        <textarea class="edit form-control" id="edit-content" value="<%= event.content %>" style="height:100%"><%= event.content %></textarea>
+      </div>
+    <% } %>
+  </script>
+  <script type="template" id="template-detail-content-activity">
+    <% if (event) { %>
+    <div class="event-structure" id="current-content" style="height:100%">
+      <label class="non-editable"><%= getContent() %></label>
+    </div>
+    <% } %>
+  </script>
+  <script type="template" id="template-detail-content-picture">
+    <% if (event) { %>
+      <div class="event-structure full-height full-width" id="current-picture">
+        <!--<span class="fa fa-angle-left picture-icon"></span>
+        <span class="fa fa-angle-right picture-icon"></span> -->
+            <img src="<%= getSrc() %>" alt="<%= getAlt()%>">
+            <!--<div class="event-structure" id="add-attachment"></div> -->
+      </div>
+    <% } %>
+  </script>
+
+  <script type="template" id="chartview-zoompan-ui">
+      <div class="chartview-zoompan-ui">
+        <div class="chartview-pan-ui" id="chartview-pan-ui">
+          <div>
+            <span class="fa fa-arrow-circle-o-up" id="pan-up"></span>
+            <span class="fa fa-arrow-circle-o-left" id="pan-left"></span>
+            <span class="fa fa-dot-circle-o" id="pan-center"></span>
+            <span class="fa fa-arrow-circle-o-down" id="pan-down"></span>
+            <span class="fa fa-arrow-circle-o-right" id="pan-right"></span>
+          </div>
+        </div>
+        <div class="chartview-zoom-ui" id="chartview-zoom-ui">
+          <span class="fa fa-plus-square" id="zoom-plus"></span>
+          <span class="fa fa-minus-square" id="zoom-minus"></span>
+        </div>
+      </div>
+  </script>
+
+
+  <script type="template" id="template-detail-content-numerical-general">
+      <div class="detail-chart-container" id="detail-chart-container-general"></div>
+  </script>
+  <script type="template" id="template-detail-content-numerical-edit">
+      <div class="detail-chart-container" id="detail-chart-container-edit"></div>
+      <div class="editor-container">
+        <h4 id="detailed-view-chart-series-name"></h4>
+        <div id="dc-editor-appearance" class="form-horizontal">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="col-sm-5 control-label" data-i18n="events.charts.labels.color"></label>
+                <div class="col-sm-7">
+                  <select id="detailed-view-chart-color" class="form-control">
+                    <option value="#1abc9c" style="background-color: #1abc9c">&nbsp;</option>
+                    <option value="#2ecc71" style="background-color: #2ecc71">&nbsp;</option>
+                    <option value="#16a085" style="background-color: #16a085">&nbsp;</option>
+                    <option value="#27ae60" style="background-color: #27ae60">&nbsp;</option>
+                    <option value="#3498db" style="background-color: #3498db">&nbsp;</option>
+                    <option value="#2980b9" style="background-color: #2980b9">&nbsp;</option>
+                    <option value="#9b59b6" style="background-color: #9b59b6">&nbsp;</option>
+                    <option value="#8e44ad" style="background-color: #8e44ad">&nbsp;</option>
+                    <option value="#34495e" style="background-color: #34495e">&nbsp;</option>
+                    <option value="#2c3e50" style="background-color: #2c3e50">&nbsp;</option>
+                    <option value="#f1c40f" style="background-color: #f1c40f">&nbsp;</option>
+                    <option value="#f39c12" style="background-color: #f39c12">&nbsp;</option>
+                    <option value="#e67e22" style="background-color: #e67e22">&nbsp;</option>
+                    <option value="#d35400" style="background-color: #d35400">&nbsp;</option>
+                    <option value="#e74c3c" style="background-color: #e74c3c">&nbsp;</option>
+                    <option value="#c0392b" style="background-color: #c0392b">&nbsp;</option>
+                    <option value="#ecf0f1" style="background-color: #ecf0f1">&nbsp;</option>
+                    <option value="#bdc3c7" style="background-color: #bdc3c7">&nbsp;</option>
+                    <option value="#95a5a6" style="background-color: #95a5a6">&nbsp;</option>
+                    <option value="#7f8c8d" style="background-color: #7f8c8d">&nbsp;</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="col-sm-5 control-label" data-i18n="events.charts.labels.type"></label>
+                <div class="col-sm-7">
+                  <select id="detailed-view-chart-style" class="form-control">
+                    <option value="line" data-i18n="events.charts.labels.typeLine"></option>
+                    <option value="spline" data-i18n="events.charts.labels.typeSpline"></option>
+                    <option value="point" data-i18n="events.charts.labels.typePoint"></option>
+                    <option value="bar" data-i18n="events.charts.labels.typeBar"></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="col-sm-5 control-label" data-i18n="events.charts.labels.operation"></label>
+                <div class="col-sm-7">
+                  <select id="detailed-view-chart-operation" class="form-control">
+                    <option value="none" data-i18n="events.charts.labels.operationNone"></option>
+                    <option value="sum" data-i18n="events.charts.labels.operationSum"></option>
+                    <option value="average" data-i18n="events.charts.labels.operationAverage"></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div id="detailed-view-chart-interval-group" class="form-group">
+                <label class="col-sm-5 control-label" data-i18n="events.charts.labels.period"></label>
+                <div class="col-sm-7">
+                  <select id="detailed-view-chart-interval" class="form-control">
+                    <option value="auto" data-i18n="events.charts.labels.periodAuto"></option>
+                    <option value="daily" data-i18n="events.charts.labels.periodDaily"></option>
+                    <option value="weekly" data-i18n="events.charts.labels.periodWeekly"></option>
+                    <option value="monthly" data-i18n="events.charts.labels.periodMonthly"></option>
+                    <option value="yearly" data-i18n="events.charts.labels.periodYearly"></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-footer">
+            <button id="detailed-view-chart-ok" type="button" class="btn btn-success" data-i18n="common.actions.apply"></button>
+            <button id="detailed-view-chart-cancel" type="button" class="btn" data-i18n="common.actions.cancel"></button>
+          </div>
+        </div>
+      </div>
+  </script>
+  <script type="template" id="template-detail-full">
+    <% if (event) { %>
+    <div id="edit-off" class="edit-off">
+      <div class="event-detail-prop-outer col-xs-2">
+        <div class="event-detail-prop-inner">
+          <%= event.streamName %>
+        </div>
+      </div>
+      <div class="event-detail-prop-outer col-xs-2">
+        <div class="event-detail-prop-inner">
+          <%= PryvBrowser.dateTime.getTimeText(event.time) %>
+        </div>
+      </div>
+      <% if (event.isRunning() || event.duration > 0) { %>
+      <div class="event-detail-prop-outer col-xs-2">
+        <div class="event-detail-prop-inner">
+          <%= displayDuration() %>
+        </div>
+      </div>
+      <div class="event-detail-prop-outer col-xs-3">
+        <div class="event-detail-prop-inner">
+          <%= event.description %>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="event-detail-prop-outer col-xs-5">
+        <div class="event-detail-prop-inner">
+          <%= event.description %>
+        </div>
+      </div>
+      <% } %>
+      <div class="event-detail-prop-outer col-xs-2">
+        <div class="event-detail-prop-inner">
+          <% event.tags.forEach(function (tag) { %>
+          <span class="tag"><%= tag %></span>
+          <% }) %>
+        </div>
+      </div>
+      <div id="edit-button" class="col-xs-1"><span class="btn btn-default pull-right"><i class="ss-write"></i><span data-i18n="common.actions.edit"></span></span></div>
+    </div>
+    <div id="edit-on" class="">
+      <form id="edit-form" role="form">
+        <div class="form-group col-xs-4">
+          <label for="edit-stream" data-i18n="events.common.labels.stream"></label>
+          <select id="edit-stream" class="form-control" ><%= getStreamStructure() %></select>
+        </div>
+        <div class="form-group col-xs-4">
+          <label for="edit-time" data-i18n="events.common.labels.time"></label>
+          <div class='input-group' id='edit-time-picker'>
+            <input type='text' class="form-control" id="edit-time"/>
+            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+          </div>
+        </div>
+        <div class="form-group col-xs-4">
+          <label for="edit-tags" data-i18n="events.common.labels.tags"></label>
+          <input type="text" id="edit-tags" class="form-control" value="<%= event.tags.join(', ').replace('\"', '&quot;') %>" data-i18n="[placeholder]events.common.labels.tagsPlaceholder">
+        </div>
+        <div class="form-group col-xs-4">
+          <label for="edit-description" data-i18n="events.common.labels.description"></label>
+          <input type="text" id="edit-description" class="form-control" value="<%= event.description %>" data-i18n="[placeholder]events.common.labels.descriptionPlaceholder">
+        </div>
+        <div class="form-group col-xs-4">
+          <label data-i18n="events.common.labels.duration"></label>
+          <div>
+            <%= getDurationControl() %>
+          </div>
+        </div>
+        <div class="form-group col-xs-4" style="text-align:right;">
+          <!-- HACK to align with other inputs -->
+          <label>&nbsp;</label><br>
+          <button id="edit-stop-editing" type="button" class="btn btn-default" data-i18n="common.actions.stopEditing"></button>
+          <button id="edit-save" type="submit" class="btn btn-primary"><i class="fa fa-spinner fa-spin" style="display: none"></i><span data-i18n="common.actions.save"></span></button>
+        </div>
+      </form>
+    </div>
+    <% } %>
+  </script>
+  <script type="template" id="template-fusion-graph">
+    <div id="fusion-full">
+    </div>
+  </script>
+  <script id="node-template" type="text/template">
+    <summary>
+    <div class="checkbox inline-block">
+      <label>
+        <input class="input-checkbox" type="checkbox"><%= name %>
+      </label>
+    </div>
+    </summary>
+  </script>
+<script type="template" id="left-panel-template">
+  <h3 class="header-title" data-i18n="slices.labels.drawerTitle"></h3>
+  <div id="actions">
+
+  </div>
+  <ul class="menu-list">
+    <li id="filter-by-stream"></li>
+  </ul>
+  <div class="menu-footer">
+    <span class="version">Browser v0.14.3</span>
+    <span class="copyright">&copy; 2014 Pryv</span>
+  </div>
+</script>
+<script type="template" id="actions-template">
+    <li><button type="button" class="logo-create-sharing btn btn-default btn-block"><span class="ss-share"></span> <span data-i18n="slices.actions.shareSlice"></span></button></li>
+    <li><button type="button" class="logo-sharing btn btn-default btn-block"><span class="ss-star"></span> <span data-i18n="slices.actions.manageSlices"></span></button></li>
+
+</script>
+<script type="template" id="filter-by-stream-template">
+  <span class="li-title" data-toggle="collapse" data-target="#collapseFilterByStream" data-i18n="slices.labels.streams"></span>
+  <div id="collapseFilterByStream" class="panel-collapse collapse in">
+    <div class="panel-body">
+      <%= getStream() %>
+      <button class="btn hide" id="filter-by-stream-apply" data-i18n="common.actions.apply"></button>
+    </div>
+  </div>
+</script>
+<script type="template" id="settings-modal-template">
+   <div class="modal-header">
+     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+     <h4 class="modal-title" id="myModalLabel" data-i18n="settings.common.labels.title"></h4>
+     <div class="modal-close"></div>
+   </div>
+  <div id="modal-content">
+    <div id="settings-nav"></div>
+    <div id="settings-content" class="col-md-10" >
+      <div id="settings-password"></div>
+      <div id="settings-manage-apps"></div>
+      <div id="settings-other-apps"></div>
+    </div>
+  </div>
+</script>
+<script type="template" id="apps-modal-template">
+   <div class="modal-header">
+     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+     <h4 class="modal-title" id="myModalLabel" data-i18n="apps.common.labels.title"></h4>
+     <div class="modal-close"></div>
+   </div>
+  <div id="modal-content">
+    <div id="settings-content" class="col-md-12" >
+      <div id="settings-manage-apps"></div>
+      <div id="settings-other-apps"></div>
+    </div>
+  </div>
+</script>
+<script type="template" id="create-sharings-modal-template">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="myModalLabel" data-i18n="slices.labels.shareTitle"></h4>
+    <div class="modal-close"></div>
+  </div>
+  <div id="modal-content">
+    <div id="create-sharings-form"></div>
+    <div id="success-sharings"></div>
+    <div id="creation-footer" class="col-md-12">
+      <button id="publish" class="btn btn-primary">
+        <span data-i18n="slices.actions.share"></span>
+        <i class="fa fa-spinner fa-spin" style="display: none;"></i>
+      </button>
+      <button id="cancel" class="btn btn-default" data-dismiss="modal"><%= i18n.t('common.actions.cancel') %></button>
+    </div>
+  </div>
+</script>
+<script type="template" id="create-sharings-form-template">
+  <h5 data-i18n="slices.labels.nameAndPermissionsTitle"></h5>
+  <form role="form" id="form-create-sharing">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="input-name"
+               data-i18n="[placeholder]slices.labels.sliceNamePlaceholder" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-5">
+        <select class="form-control" id="input-global-permission">
+          <option value="read" selected="selected"
+                  data-i18n="slices.labels.permissionRead"></option>
+          <option value="contribute"
+                  data-i18n="slices.labels.permissionContribute"></option>
+          <option value="manage"
+                  data-i18n="slices.labels.permissionManage"></option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5 panel panel-default advanced-settings">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          Advanced settings
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <input type="text" class="form-control" id="input-token" placeholder="Token">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="submit" style="opacity: 0; visibility: hidden;">
+  </form>
+  <h5 data-i18n="slices.labels.sharedStreams"></h5>
+      <div id="sharing-stream-list">
+         <%= getStream() %>
+      </div>
+</script>
+<script type="template" id="success-sharings-template">
+  <div class="container">
+      <h4><%= i18n.t('slices.messages.sharingSuccessful') %></h4>
+      <h3 class="share-link"><a href="<%= getUrl() %>"><%= getUrl() %></a></h3>
+  <p class="text-center share">
+      <a target="_blank" href="https://www.facebook.com/sharer.php?u=<%= getUrl().replace(/#/g, '%23') %>&t="
+  onclick="javascript:window.open(this.href, \'\',
+  \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700\');
+  return false;" title="<%= i18n.t('slices.actions.shareOnFacebook') %>">
+  <i class="fa fa-facebook"></i></a>
+  <a target="_blank" href="https://twitter.com/share?url=<%= getUrl().replace(/#/g, '%23')%>&via=pryv"
+  onclick="javascript:window.open(this.href, \'\',
+  \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700\');
+  return false;" title="<%= i18n.t('slices.actions.shareOnTwitter') %>">
+  <i class="fa fa-twitter"></i></a>
+  <a href="mailto:?subject=<%= encodeURIComponent(i18n.t('slices.messages.sharingEmailSubject',
+  {sliceName: name})) %>&amp;body=<%= encodeURIComponent(i18n.t('slices.messages.sharingEmailBody',
+      {sliceURL: getUrl() })) %>" title="<%= i18n.t('slices.actions.shareViaEmail') %>">
+  <i class="fa fa-envelope"></i></a>
+  </p></div>
+</script>
+<script type="template" id="nav-settings-modal-template">
+  <ul class="nav">
+    <li><a href="javascript:void(0)" data-name="manageApps" data-i18n="settings.connectedApps.labels.title"></a></li>
+  </ul>
+  <ul class="nav">
+    <li><a href="javascript:void(0)" data-name="password" data-i18n="settings.security.labels.title"></a></li>
+  </ul>
+</script>
+<script type="template" id="password-settings-modal-template">
+  <div class="panel panel-default settings-panel">
+    <div class="panel-heading">
+      <h4 data-i18n="settings.security.labels.passwordTitle"></h4>
+      <p class="panel-subtitle" data-i18n="settings.security.labels.passwordSubtitle"></p>
+    </div>
+    <div class="panel-body">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="currentPassword" class="col-sm-2 control-label" data-i18n="settings.security.labels.currentPassword"></label>
+          <div class="col-sm-5">
+            <input type="password" class="form-control" id="currentPassword" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="newPassword" class="col-sm-2 control-label" data-i18n="settings.security.labels.newPassword"></label>
+          <div class="col-sm-5">
+            <input type="password" class="form-control" id="newPassword" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="reNewPassword" class="col-sm-2 control-label" data-i18n="settings.security.labels.newPasswordConfirm"></label>
+          <div class="col-sm-5">
+            <input type="password" class="form-control" id="reNewPassword" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-5">
+            <button type="submit" class="btn btn-default"><span data-i18n="common.actions.save"></span> <span class="fa fa-spinner fa-spin"></span></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>
+<script type="template" id="apps-item-settings-template">
+  <td class="app-icon col-md-1">
+    <% if (app.iconURL) { %>
+    <img src="<%= app.iconURL %>">
+    <% } %>
+  </td>
+  <td class="col-md-7">
+    <%= app.displayName %>
+  </td>
+  <td class="col-md-2 app-settings">
+    <% if (app.settingsPageURL && app.settingsPageURL.length > 0) { %>
+      <a class="btn btn-default btn-xs" href="<%= app.settingsPageURL %>" target="_blank"><i class="fa fa-cog fa-xs"></i> <span data-i18n="nav.actions.settings"></span></a>
+    <% } %>
+  </td>
+  <td class="col-md-2 app-trash">
+    <a class="btn btn-default btn-xs" href="javascript:void(0)"><i class="fa fa-times fa-xs"></i> <span data-i18n="settings.connectedApps.actions.disconnect"></span></a>
+  </td>
+</script>
+  <script type="template" id="apps-list-settings-template">
+
+    <div class="panel panel-default seetings-panel">
+      <div class="panel-heading">
+        <h4 data-i18n="settings.connectedApps.labels.title">
+        </h4>
+        <p class="panel-subtitle"
+          data-i18n="settings.connectedApps.labels.subtitle">
+        </p>
+      </div>
+        <div class="panel-body">
+          <table class="table">
+            <thead><tr>
+              <th></th>
+              <th data-i18n="settings.connectedApps.labels.name"></th>
+              <th data-i18n="settings.connectedApps.labels.action"></th>
+              <th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+    </div>
+
+
+  </script>
+<script type="template" id="other-apps-item-settings-template">
+    <div class="thumbnail">
+      <div class="app-icon">
+        <img src="<%= app.iconURL %>">
+        <% if (app.appURL && app.appURL.length > 0) { %>
+          <p><a href="<%= app.appURL %>" class="btn btn-default" role="button" target="_blank" data-i18n="settings.connectedApps.actions.connect"></a></p>
+        <% } %>
+      </div>
+      <div class="apps-item-content">
+        <h4><%= app.displayName %></h4>
+        <p><%= app.description %></p>
+
+      </div>
+    </div></script>
+<script type="template" id="other-apps-list-settings-template">
+  <a class="btn btn-default btn-lg" data-toggle="collapse" data-target="#appList" data-i18n="settings.connectedApps.actions.connectMoreApps" href="javascript:void(0)"></a>
+
+    <div id="appList" class="panel-collapse collapse">
+      <div class="panel-body">
+      </div>
+    </div>
+
+</script>
+<script type="template" id="other-apps-list-template">
+    <div id="appList">
+      <div class="panel-body">
+      </div>
+    </div>
+</script>
+  <script type="template" id="stream-config-modal-template">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h4 class="modal-title" id="myModalLabel" data-i18n="stream.common.labels.title"></h4>
+      <div class="modal-close"></div>
+    </div>
+    <div id="modal-content">
+      <div id="settings-content" class="col-md-12" >
+        <div id="stream-config"></div>
+      </div>
+    </div>
+  </script>
+<script type="template" id="stream-config-template">
+  <form id="stream-form" class="form-horizontal">
+    <div class="form-group">
+      <label for="streamName" class="col-sm-2 control-label" data-i18n="stream.common.labels.name">Name</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="streamName" data-i18n="[placeholder]stream.common.labels.name" value="<%= stream.name %>">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="streamParent" class="col-sm-2 control-label" data-i18n="stream.common.labels.parent">Parent</label>
+      <div class="col-sm-4">
+        <select id="streamParent" class="form-control" ><%= getStreamStructure() %></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="streamColor" class="col-sm-2 control-label" data-i18n="stream.common.labels.color">Color</label>
+      <div class="col-sm-2">
+         <div id="streamColor" style="background-color: <%= getColor() %>"></div>
+      </div>
+    </div>
+    <div class="col-sm-4 col-sm-offset-5">
+      <button id="publish" class="btn btn-primary" type="submit">
+        <span data-i18n="common.actions.save">Save</span>
+        <i class="fa fa-spinner fa-spin" style="display: none;"></i>
+      </button>
+    </div>
+  </form>
+  <form class="form-horizontal" style="margin-top: 70px;">
+    <div class="checkbox col-sm-3 col-sm-offset-2">
+      <label>
+        <span data-i18n="stream.common.labels.mergeParent"></span> <input type="checkbox" id="mergeParent">
+      </label>
+    </div>
+    <div  class="col-sm-1">
+    <button id="delete" class="btn btn-danger" type="submit">
+      <span data-i18n="common.actions.delete">Delete</span>
+      <i class="fa fa-spinner fa-spin" style="display: none;"></i>
+    </button>
+    </div>
+  </form>
+</script>
+</head>
+
+<body>
+<div class="onboarding visible-xs">
+  <div class="ob_text" style="margin: 15px; text-align: center;">
+    <i class="fa fa-mobile" style="font-size: 106px;display: block;"></i>
+    <p style="font-size: 16px; text-align: center;" data-i18n="[html]common.messages.smallScreensNotice"></p>
+    <div>
+      <a href="https://itunes.apple.com/us/app/pryv/id826320447?mt=8&uo=4" target="itunes_store"
+        style="display:inline-block;
+        overflow:hidden;
+        width:135px;
+        height:40px;
+        background:url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_appstore-lrg.png) no-repeat;
+        background-image:none, url(https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_appstore-lrg.svg);
+        ">
+      </a>
+    </div>
+  </div>
+</div>
+<div id="main-container" class="hidden-xs">
+  <div class="menu-panel"></div>
+<span id="pryvButton"></span>
+<div id="login">
+  <!--<div id="login-caret" class="centered"><span class="ss-navigateleft"></span>
+  </div>-->
+  <div id="login-form" class="centered">
+    <form role="form">
+      <div class="icon ss-user" style="text-align: center;"></div>
+      <h3 data-i18n="login.labels.title" style="text-align: center;margin: 0 0 20px;font-weight: 400;"></h3>
+
+      <div class="form-group">
+        <label class="sr-only" for="login-username">Username</label>
+        <input type="text" class="form-control" id="login-username" data-i18n="[placeholder]login.labels.username">
+      </div>
+      <div class="form-group">
+        <label class="sr-only" for="login-password">Password</label>
+        <input type="password" class="form-control" id="login-password" data-i18n="[placeholder]login.labels.password">
+      </div>
+
+      <div class="form-group" style="overflow:hidden;">
+        <button type="submit" class="btn btn-primary pull-right"><span data-i18n="login.actions.login"></span> <i class="fa fa-spinner fa-spin"></i></button>
+        <button type="button" id="login-caret" class="btn btn-default pull-right"><span data-i18n="common.actions.cancel"></span></button>
+      </div>
+      <hr/>
+      <div class="form-group">
+        <script>
+          var redirectRegister = function (url) {
+          location.href = url + '?returnUrl=' + location.href;
+        }
+        var domain = document.location.hostname.substr(document.location.hostname.indexOf('.') + 1);
+        var staticWebSource = 'https://sw.' + domain ;
+
+        </script>
+        <a id="register" href="javascript:redirectRegister(staticWebSource +'/access/register.html')" data-i18n="login.actions.register" target="_self"></a>
+      </div>
+      <div class="form-group">
+        <a id="resetPassword" href="javascript:redirectRegister(staticWebSource +'/access/reset-password.html')" data-i18n="login.actions.resetPassword" target="_blank"></a>
+      </div>
+
+    </form>
+  </div>
+</div>
+  <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div id="logo-reload" class="logo">Pryv</div>
+    <ul class="nav navbar-nav navbar-left">
+      <li id="togglePanel">
+      <a href="javascript:void(0)"><span><i class="fa fa-bars fa-lg icon-only"></i></span></a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" class="logo-subscribe"><span class="glyphicon glyphicon-star-empty"></span>  <span data-i18n="nav.actions.followSlice"></span></a>
+      </li>
+      <li id="addEvent">
+        <a href="javascript:void(0)" ><span class="icon ss-plus"></span> <span data-i18n="nav.actions.addEvent"></span></a>
+      </li>
+      <li id="connectApps">
+        <a href="javascript:void(0)" ><span class="icon ss-piechart"></span> <span data-i18n="nav.actions.connectApps"></span></a>
+      </li>
+      <li id="requestHelp">
+        <a href="javascript:void(0)" target="_blank"><span class="icon ss-help"></span> <span data-i18n="nav.actions.requestHelp"></span></a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li id="toMyPryv">
+        <a href="javascript:void(0)"><span class="ss-user"></span>  <span data-i18n="nav.actions.goToMyPryv"></span></a>
+        </li>
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" id="login-button"><i class="ss-user"></i> </a>
+          <ul class="dropdown-menu">
+            <li id="settings"><a href="javascript:void(0)" ><span class="fa fa-cog fa-lg"></span> <span data-i18n="nav.actions.settings"></span></a></li>
+            <li id="sign-out"><a href="javascript:void(0)" ><i class="ss-logout"></i> <span data-i18n="nav.actions.signOut"></span></a></li>
+          </ul>
+        </li>
+
+      </ul>
+      <a id="back-tree" class="btn-back-tree ss-home" href="#" ></a>
+  </nav>
+
+
+<div id="tree">
+  <div id="empty-tree-notice" class="user-msg-box">
+    <div class="icon ss-book"></div>
+    <p data-i18n="atGlance.messages.noData"></p>
+  </div>
+</div>
+<div id="onboarding" class="hidden">
+
+</div>
+<div id="timeframeContainer"></div>
+</div>
+<div class="modal" id="pryv-modal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-animation">
+    <div class="modal-content">
+
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</body>
+</html>

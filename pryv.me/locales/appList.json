@@ -1,0 +1,45 @@
+{
+  "apps": [{
+    "id": "pryv-ios-app",
+    "displayName": "Pryv for iOS",
+    "description": "Capture and browse pictures, notes, values etc. while on the go",
+    "iconURL": "https://d3gblc8a9weyfb.cloudfront.net:443/apps/pryv-ios-app/icon512.png",
+    "appURL": "https://itunes.apple.com/us/app/pryv/id826320447",
+    "settingsPageURL": ""
+  }, {
+    "id": "pryv-csv-importer",
+    "displayName": "CSV Importer",
+    "description": "Import existing data from CSV files",
+    "iconURL": "https://d3gblc8a9weyfb.cloudfront.net:443/apps/pryv-csv-importer/icon512.png",
+    "appURL": "http://pryv.github.io/dev-tools/csv-importer",
+    "settingsPageURL": "http://pryv.github.io/dev-tools/csv-importer"
+  }, {
+    "id": "bridge-twitter",
+    "displayName": "Twitter",
+    "description": "Forward selected tweets live and import past tweets from one or more Twitter accounts",
+    "iconURL": "https://d3gblc8a9weyfb.cloudfront.net:443/apps/bridge-twitter/icon512.png",
+    "appURL": "https://bridges.pryv.io:4443/",
+    "settingsPageURL": "https://bridges.pryv.io:4443/"
+  }, {
+    "id": "bridge-withings",
+    "displayName": "Withings",
+    "description": "Forward measures live and import past measures from one or more Withings accounts",
+    "iconURL": "https://d3gblc8a9weyfb.cloudfront.net:443/apps/bridge-withings/icon512.png",
+    "appURL": "http://bridges.pryv.io:5443/",
+    "settingsPageURL": "http://bridges.pryv.io:5443/"
+  }, {
+    "id": "ifttt-all",
+    "displayName": "IFTTT",
+    "description": "Connect Pryv to over 100 other products and services with Pryv Recipes on IFTTT",
+    "iconURL": "https://d3gblc8a9weyfb.cloudfront.net:443/apps/ifttt-all/icon512.png",
+    "appURL": "https://ifttt.com/channels/pryv",
+    "settingsPageURL": "https://ifttt.com/channels/pryv"
+  }, {
+    "id": "pryv-integration-osx",
+    "displayName": "Pryv OSX",
+    "description": "Integrate Pryv with your desktop",
+    "iconURL": "https://d3gblc8a9weyfb.cloudfront.net:443/apps/pryv-integration-osx/icon512.png",
+    "appURL": "https://itunes.apple.com/app/pryv/id881452044",
+    "settingsPageURL": ""
+  }]
+}
